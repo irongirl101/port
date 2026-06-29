@@ -140,5 +140,97 @@ def retrieve_by_port(port,top_n=5):
     matches.sort(key=lambda x:x["cvss"], reverse=True)
     return matches[:top_n]
 
-#print(session.query(CVE).count())
 init_embed_db() 
+
+def analyze_by_port(port, scan_type = None, source_ip = None): # will only work when suricata and zeek and libpcap has been introduced 
+    port_match = retrieve_by_port(port,top_n=3)
+    event_desc = (
+        f"Port scan detected on port {port}. "
+        f"Scan type: {scan_type or 'unknown'}. "
+        f"Source IP: {source_ip or 'unknown'}."
+    )
+    semantic = retrieve(event_desc,top_n=3)
+
+    seen = {} 
+    for item in port_match + semantic: 
+        cve_id = item["cve_id"]
+        if cve_id not in seen or item["cvss"] > seen[cve_id]["cvss"]:
+            seen[cve_id] = item
+    merged = sorted(seen.values(), key=lambda x:x["cvss"], reverse=True)[:5]
+
+    if not merged:
+        return {
+            "port": port,
+            "source_ip": source_ip,
+            "scan_type": scan_type,
+            "matched_cves": [],
+            "intent": "unknown",
+            "severity": "unknown",
+            "recommended_action": "monitor",
+            "reasoning": "No CVE data found for this port."
+        }
+    context = "\n\n".join(item["chunk"] for item in merged)
+    system_prompt = f"""
+You are a cybersecurity triage assistant analyzing a port scan event.
+
+A port scan was detected:
+    Source IP:  {source_ip or 'unknown'}
+    Port:       {port}
+    Scan type:  {scan_type or 'unknown'}
+
+The following CVEs are associated with this port:
+
+{context}
+
+Based ONLY on the above CVE information, respond in this exact format:
+
+INTENT: <what the attacker is likely after, one sentence>
+SEVERITY: <Critical | High | Medium | Low>
+ACTION: <block | escalate | monitor | ignore>
+REASONING: <one or two sentences explaining the verdict>
+"""
+
+    response = ollama.chat(
+        model=LANGUAGE_MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": f"Analyze this port scan on port {port}."}
+        ]
+    )
+
+    raw = response["message"]["content"]
+
+    
+    def extract(label, text):
+        for line in text.splitlines():
+            if line.strip().upper().startswith(label + ":"):
+                return line.split(":", 1)[1].strip()
+        return "unknown"
+
+    return {
+        "port": port,
+        "source_ip": source_ip,
+        "scan_type": scan_type,
+        "matched_cves": [
+            {"cve_id": i["cve_id"], "cvss": i["cvss"]}
+            for i in merged
+        ],
+        "intent":    extract("INTENT",    raw),
+        "severity":  extract("SEVERITY",  raw),
+        "recommended_action": extract("ACTION", raw),
+        "reasoning": extract("REASONING", raw),
+        "raw_llm_response": raw
+    }
+
+result = analyze_by_port(
+    port=7878,
+    scan_type="SYN",
+    source_ip="192.168.1.50"
+)
+
+print(f"Intent:   {result['intent']}")
+print(f"Severity: {result['severity']}")
+print(f"Action:   {result['recommended_action']}")
+print(f"Reason:   {result['reasoning']}")
+print(f"CVEs:     {result['matched_cves']}")
+
