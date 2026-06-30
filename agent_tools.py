@@ -1,7 +1,7 @@
 import re 
 from collections import defaultdict
 from datetime import datetime
-
+from embed import analyze_by_port
 # threshold for what is counted as a scan 
 THRESHOLD = 10 
 
@@ -68,6 +68,31 @@ def detect_scan(records, threshold = THRESHOLD):
                 "scan_type": scan_type,
                 "first_seen": datetime.fromtimestamp(first).isoformat() })
     return detected
+
+# calls analyze port from main.py when required 
+def process_log(filepath): 
+    records = parse_conn_log(filepath)
+    scans = detect_scan(records)
+    print(f"Detected {len(scans)} scan pattern(s) "
+          f"(threshold: {THRESHOLD}+ distinct ports).\n")
+
+    results = []
+    for scan in scans:
+        print(f"Scan detected: {scan['source_ip']} -> {scan['dest_ip']}")
+        print(f"  Ports probed: {scan['port_count']}")
+        print(f"  Type: {scan['scan_type']}")
+        print(f"  Duration: {scan['duration_seconds']}s")
+        rep_port = int(scan["distinct_port"][0])
+
+        result = analyze_by_port(port = rep_port, scan_type=scan["scan_type"], source_ip=scan["src_ip"])
+        result["dest_ip"] = scan["dest_port"]
+        result["all_ports_probed"] = scan["distinct_ports"]
+        results.append(result)
+
+        print(f"Verdict : Verdict: {result['severity']} - {result['recommended_action']}")
+        print(f"  Intent: {result['intent']}\n")
+    
+    return results
 
 
             
