@@ -140,7 +140,6 @@ def retrieve_by_port(port,top_n=5):
     matches.sort(key=lambda x:x["cvss"], reverse=True)
     return matches[:top_n]
 
-init_embed_db() 
 
 def analyze_by_port(port, scan_type = None, source_ip = None): # will only work when suricata and zeek and libpcap has been introduced 
     port_match = retrieve_by_port(port,top_n=3)
