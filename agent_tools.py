@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 from embed import analyze_by_port,init_embed_db
 
+
 # threshold for what is counted as a scan 
 THRESHOLD = 10 
 
