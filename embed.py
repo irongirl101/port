@@ -148,7 +148,10 @@ def analyze_by_port(port, scan_type = None, source_ip = None): # will only work 
         f"Scan type: {scan_type or 'unknown'}. "
         f"Source IP: {source_ip or 'unknown'}."
     )
-    semantic = retrieve(event_desc,top_n=3)
+    semantic = [
+    item for item in retrieve(event_desc, top_n=10)
+    if item["port"] == port
+    ]
 
     seen = {} 
     for item in port_match + semantic: 
@@ -183,7 +186,7 @@ The following CVEs are associated with this port:
 
 Based ONLY on the above CVE information, respond in this exact format:
 
-INTENT: <what the attacker is likely after, one sentence>
+INTENT: <what the attacker is likely after>
 SEVERITY: <Critical | High | Medium | Low>
 ACTION: <block | escalate | monitor | ignore>
 REASONING: <one or two sentences explaining the verdict>
@@ -202,8 +205,9 @@ REASONING: <one or two sentences explaining the verdict>
     
     def extract(label, text):
         for line in text.splitlines():
-            if line.strip().upper().startswith(label + ":"):
-                return line.split(":", 1)[1].strip()
+            stripped = line.strip()
+            if stripped.upper().startswith(label + ":"):
+                return stripped.split(":", 1)[1].strip()
         return "unknown"
 
     return {
@@ -220,16 +224,4 @@ REASONING: <one or two sentences explaining the verdict>
         "reasoning": extract("REASONING", raw),
         "raw_llm_response": raw
     }
-
-result = analyze_by_port(
-    port=7878,
-    scan_type="SYN",
-    source_ip="192.168.1.50"
-)
-
-print(f"Intent:   {result['intent']}")
-print(f"Severity: {result['severity']}")
-print(f"Action:   {result['recommended_action']}")
-print(f"Reason:   {result['reasoning']}")
-print(f"CVEs:     {result['matched_cves']}")
 

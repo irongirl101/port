@@ -181,3 +181,4 @@ cython_debug/
 .cursorindexingignore
 
 api_keys.py
+.DS_Store

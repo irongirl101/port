@@ -1,13 +1,11 @@
 from collections import defaultdict
 from datetime import datetime
 import json
-from embed import analyze_by_port,init_embed_db
-from iprep import ip_check
+from embed import analyze_by_port,init_embed_db, VECTOR_DB
+import iprep
 
 # threshold for what is counted as a scan 
 THRESHOLD = 10 
-
-init_embed_db() 
 
 # parsing what zeek has given + ignores all the unimportant headers etc etc 
 def parse_conn_log(filepath):
@@ -86,14 +84,26 @@ def process_log(filepath):
         print(f"  Ports probed: {scan['port_count']}")
         print(f"  Type: {scan['scan_type']}")
         print(f"  Duration: {scan['duration']}s")
-        rep_port = int(scan["distinct_ports"][0])
+        KNOWN_PORTS = {
+            21, 22, 25, 53, 80, 110, 143,
+            389, 443, 445, 1433, 3306, 3389,
+            5432, 6379, 8080, 8443, 9200, 27017
+        }
 
-        rep = ip_check(scan["src_ip"])
+        rep_port = next(
+            (int(p) for p in scan["distinct_ports"]
+            if int(p) in KNOWN_PORTS),
+            int(scan["distinct_ports"][0])
+        )
+
+        rep = iprep.ip_check(scan["src_ip"])
         if rep["action"] == "ignore": 
             print(f"  Skipping: {scan['src_ip']} is {rep['reputation']}")
             continue
-
+        print(f"  Representative port: {rep_port}")
+        print(f"  CVEs in VECTOR_DB for this port: {len([i for i in VECTOR_DB if i['port'] == rep_port])}")
         result = analyze_by_port(port = rep_port, scan_type=scan["scan_type"], source_ip=scan["src_ip"])
+        print(f"  Raw LLM response: {result.get('raw_llm_response', 'N/A')}")
         result["dest_ip"] = scan["dest_ip"]
         result["all_ports_probed"] = scan["distinct_ports"]
         results.append(result)
@@ -158,6 +168,7 @@ def summarize(alerts):
 
 if __name__ == "__main__":
     import sys
+    init_embed_db()
     if len(sys.argv) < 2:
         print("Usage: python agent_tools.py <path-to-conn.log>")
         sys.exit(1)
