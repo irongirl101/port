@@ -128,7 +128,7 @@ def ip_check(ip):
                     "confidence": 85,
                     "action":     "ignore"
                 })
-    print("inserting: ", ip)
+    #print("inserting: ", ip)
     cache_set(ip, result)
     return result
 
