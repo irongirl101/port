@@ -83,9 +83,87 @@ SEVERITY: High
 - SQLite - CVE database + embedding store + IP reputation cache
 - AbuseIPDB + Shodan InternetDB - IP reputation feeds
 
-## Requirements 
+## Quick Start
+1. **Clone the Repo** 
 
-### Dependencies 
+```bash
+   git clone https://github.com/irongirl101/sentry.git
+   cd sentry
+```
+2. **Install Zeek (Ubuntu 24.04)**
+```bash
+echo 'deb https://download.opensuse.org/repositories/security:/zeek/xUbuntu_24.04/ /' | \
+    sudo tee /etc/apt/sources.list.d/security:zeek.list
+curl -fsSL https://download.opensuse.org/repositories/security:zeek/xUbuntu_24.04/Release.key | \
+    sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/security_zeek.gpg
+sudo apt update && sudo apt install -y zeek-lts
+echo 'export PATH=/opt/zeek/bin:$PATH' >> ~/.bashrc && source ~/.bashrc
+```
+
+3. **Install Suricata (Ubuntu 24.04)**
+```bash
+sudo add-apt-repository ppa:oisf/suricata-stable -y
+sudo apt update && sudo apt install -y suricata
+sudo suricata-update
+```
+
+4. **Installing Ollama:**
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+**Pulling the required models:**
+```bash
+ollama pull hf.co/CompendiumLabs/bge-base-en-v1.5-gguf
+ollama pull hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF
+```
+5. **Python Dependencies** 
+```bash
+   pip install -r requirements.txt
+```
+
+### API Keys
+
+| Service | Required | Purpose | Free Tier |
+|---------|----------|---------|-----------|
+| AbuseIPDB | Yes | IP reputation scoring | 1,000 checks/day |
+
+Sign up at [abuseipdb.com](https://www.abuseipdb.com) and set your key:
+
+```bash
+export ABUSEIPDB_API_KEY="your_key_here"
+# Add to ~/.bashrc to persist across sessions
+echo 'export ABUSEIPDB_API_KEY="your_key_here"' >> ~/.bashrc
+```
+
+### Notes
+
+- Zeek and Suricata require elevated privileges (`sudo`) for live packet capture.
+  Batch mode against pcap files works without `sudo` for Zeek, but Suricata
+  still requires it to read its config file.
+- The Ollama models total approximately 875 MB of disk space.
+- Tested on Ubuntu 24.04 LTS (recommended) and Ubuntu 26.04.
+  macOS is not recommended for live capture — see Architecture notes.
+
+
+6. **Build the CVE database**
+```bash
+   python3 triage.py /path/to/cvelistV5/cves --years 2024,2025,2026 \
+       --save-db cve_candidates.sqlite
+```
+7. **Build the embeddings**
+```bash
+   python3 embed.py
+```
+
+8. **Run against a pcap file**
+```bash
+   # Generate logs
+   zeek -r your_capture.pcap
+   sudo suricata -r your_capture.pcap -l ./suricata-logs
+
+   # Run Sentry
+   python3 agent_tools.py conn.log suricata-logs/eve.json
+```
 
 ## Future Enhancements 
 - [ ] Add another layer (reasoning model) for the LLM to take care of ~1% of the cases that will not be flagged by the 4 pillars. 
