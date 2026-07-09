@@ -146,8 +146,7 @@ echo 'export ABUSEIPDB_API_KEY="your_key_here"' >> ~/.bashrc
 
 
 6. **Build the CVE database**
-```
-   bash
+```bash
    python3 triage.py /path/to/cvelistV5/cves --years 2024,2025,2026 \
        --save-db cve_candidates.sqlite
 ```
