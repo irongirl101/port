@@ -141,7 +141,7 @@ def retrieve_by_port(port,top_n=5):
     return matches[:top_n]
 
 
-def analyze_by_port(port, scan_type = None, source_ip = None): # will only work when suricata and zeek and libpcap has been introduced 
+def analyze_by_port(port, scan_type = None, source_ip = None, suricata_context=None): # will only work when suricata and zeek and libpcap has been introduced 
     port_match = retrieve_by_port(port,top_n=3)
     event_desc = (
         f"Port scan detected on port {port}. "
@@ -173,23 +173,26 @@ def analyze_by_port(port, scan_type = None, source_ip = None): # will only work 
         }
     context = "\n\n".join(item["chunk"] for item in merged)
     system_prompt = f"""
-You are a cybersecurity triage assistant analyzing a port scan event.
+You are a cybersecurity triage assistant.
 
 A port scan was detected:
     Source IP:  {source_ip or 'unknown'}
     Port:       {port}
     Scan type:  {scan_type or 'unknown'}
 
+Suricata IDS result:
+    {suricata_context or 'No Suricata data available.'}
+
 The following CVEs are associated with this port:
 
 {context}
 
-Based ONLY on the above CVE information, respond in this exact format:
+Based ONLY on the above, respond in this exact format:
 
 INTENT: <what the attacker is likely after>
 SEVERITY: <Critical | High | Medium | Low>
 ACTION: <block | escalate | monitor | ignore>
-REASONING: <one or two sentences explaining the verdict>
+REASONING: <one or two sentences>
 """
 
     response = ollama.chat(

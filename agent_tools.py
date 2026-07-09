@@ -71,47 +71,8 @@ def detect_scan(records, threshold = THRESHOLD):
                 "first_seen": datetime.fromtimestamp(first).isoformat() })
     return detected
 
-# calls analyze port from main.py when required 
-def process_log(filepath): 
-    records = parse_conn_log(filepath)
-    scans = detect_scan(records)
-    print(f"Detected {len(scans)} scan pattern(s) "
-          f"(threshold: {THRESHOLD}+ distinct ports).\n")
 
-    results = []
-    for scan in scans:
-        print(f"Scan detected: {scan['src_ip']} -> {scan['dest_ip']}")
-        print(f"  Ports probed: {scan['port_count']}")
-        print(f"  Type: {scan['scan_type']}")
-        print(f"  Duration: {scan['duration']}s")
-        KNOWN_PORTS = {
-            21, 22, 25, 53, 80, 110, 143,
-            389, 443, 445, 1433, 3306, 3389,
-            5432, 6379, 8080, 8443, 9200, 27017
-        }
 
-        rep_port = next(
-            (int(p) for p in scan["distinct_ports"]
-            if int(p) in KNOWN_PORTS),
-            int(scan["distinct_ports"][0])
-        )
-
-        rep = iprep.ip_check(scan["src_ip"])
-        if rep["action"] == "ignore": 
-            print(f"  Skipping: {scan['src_ip']} is {rep['reputation']}")
-            continue
-        print(f"  Representative port: {rep_port}")
-        print(f"  CVEs in VECTOR_DB for this port: {len([i for i in VECTOR_DB if i['port'] == rep_port])}")
-        result = analyze_by_port(port = rep_port, scan_type=scan["scan_type"], source_ip=scan["src_ip"])
-        print(f"  Raw LLM response: {result.get('raw_llm_response', 'N/A')}")
-        result["dest_ip"] = scan["dest_ip"]
-        result["all_ports_probed"] = scan["distinct_ports"]
-        results.append(result)
-
-        print(f"Verdict : Verdict: {result['severity']} - {result['recommended_action']}")
-        print(f"  Intent: {result['intent']}\n")
-    
-    return results
 
 # parse eve.json suricata and resturns a list of alert events only 
 def parse_json(filepath): 
@@ -142,7 +103,85 @@ def parse_json(filepath):
                 "category":   alert.get("category"),
                 "signature_id": alert.get("signature_id"),
             })
-    return alert
+    return alerts
+
+# calls analyze port from main.py when required 
+def process_log(filepath, eve_json = None): 
+    records = parse_conn_log(filepath)
+    scans = detect_scan(records)
+    print(f"Detected {len(scans)} scan pattern(s) "
+          f"(threshold: {THRESHOLD}+ distinct ports).\n")
+
+    alerts = parse_json(eve_json)
+    suricata_by_port = summarize(alerts)
+    print(f"Suricata alerts: {len(alerts)} "
+          f"({'across ' + str(len(suricata_by_port)) + ' ports' if alerts else 'none — no signature matches'}).\n")
+    
+    results = []
+    KNOWN_PORTS = {
+            21, 22, 25, 53, 80, 110, 143,
+            389, 443, 445, 1433, 3306, 3389,
+            5432, 6379, 8080, 8443, 9200, 27017
+        }
+
+    for scan in scans:
+        print(f"Scan detected: {scan['src_ip']} -> {scan['dest_ip']}")
+        print(f"  Ports probed: {scan['port_count']}")
+        print(f"  Type: {scan['scan_type']}")
+        print(f"  Duration: {scan['duration']}s")
+       
+        rep_port = next(
+            (int(p) for p in scan["distinct_ports"]
+            if int(p) in KNOWN_PORTS),
+            int(scan["distinct_ports"][0])
+        )
+
+        rep = iprep.ip_check(scan["src_ip"])
+        if rep["action"] == "ignore": 
+            print(f"  Skipping: {scan['src_ip']} is {rep['reputation']}")
+            continue
+
+        flagged_ports = [
+            int(p) for p in scan["distinct_ports"]
+            if int(p) in suricata_by_port
+        ]
+        if flagged_ports:
+            print(f"  Suricata also flagged ports: {flagged_ports}")
+            # prefer a Suricata-flagged port as representative
+            # since it has a known-bad signature match
+            rep_port = flagged_ports[0]
+        else:
+            # fall back to first KNOWN_PORT in the scan
+            rep_port = next(
+                (int(p) for p in scan["distinct_ports"]
+                 if int(p) in KNOWN_PORTS),
+                int(scan["distinct_ports"][0])
+            )
+
+        print(f"  Representative port: {rep_port}")
+        print(f"  CVEs in VECTOR_DB for this port: {len([i for i in VECTOR_DB if i['port'] == rep_port])}")
+
+        suricata_context = (
+            f"Suricata also flagged ports {flagged_ports} "
+            f"with signatures: "
+            f"{[suricata_by_port[p]['signatures'] for p in flagged_ports]}"
+            if flagged_ports else
+            "No Suricata signatures matched."
+        )
+        result = analyze_by_port(port = rep_port, scan_type=scan["scan_type"], source_ip=scan["src_ip"],suricata_context = suricata_context)
+        print(f"  Raw LLM:   {result.get('raw_llm_response', 'N/A')}")
+        print(f"  Verdict:   {result['severity']} - "
+              f"{result['recommended_action']}")
+        print(f"  Intent:    {result['intent']}")
+        print(f"  Reasoning: {result['reasoning']}\n")
+
+        result["dest_ip"] = scan["dest_ip"]
+        result["all_ports_probed"] = scan["distinct_ports"]
+        result["ip_reputation"] = rep
+        result["suricata_flagged_ports"] = flagged_ports
+        results.append(result)
+    
+    return results
 
 # summarize and find out scan pattern - ports by dict 
 def summarize(alerts):
@@ -169,10 +208,16 @@ def summarize(alerts):
 if __name__ == "__main__":
     import sys
     init_embed_db()
+
     if len(sys.argv) < 2:
-        print("Usage: python agent_tools.py <path-to-conn.log>")
+        print("Usage: python3 agent_tools.py "
+              "<conn.log> [eve.json]")
         sys.exit(1)
-    process_log(sys.argv[1])
+
+    conn_log = sys.argv[1]
+    eve_json = sys.argv[2] if len(sys.argv) > 2 else None
+
+    process_log(conn_log, eve_json)
             
 
 
