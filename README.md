@@ -3,10 +3,10 @@
 ### Sentry is a layered detection agent, that sits on the network interface and identifies port scanning behaviour in real time. 
 
 ``` 
-Port Scanning is a form of techinque used to probe a device or network to determine which ports are closed, open or filtered. Malicious attackers use this technique as a form of reconnaissance, checking for doors are open that they may be able to exploit. 
+Port Scanning is a form of technique used to probe a device or network to determine which ports are closed, open or filtered. Malicious attackers use this technique as a form of reconnaissance, checking which doors are open that they may be able to exploit. 
 ```
 
-Sentry, as a triage agent, can detect if any reconnaisaance activity or port scanning behaviour, using LLMs and other tools like Zeek, Suricata and libpcap. 
+Sentry, as a triage agent, can detect if any reconnaissance activity or port scanning behaviour, using LLMs and other tools like Zeek, Suricata and libpcap. 
 (Note: this agent is not a live product as of yet.)
 
 
@@ -43,8 +43,7 @@ Combines four pillars to produce a verdict:
 - Suricata signature match results
 - IP reputation (AbuseIPDB + Shodan
   InternetDB, locally cached)
-- CVE RAG pipeline: embeddings of a port-confirmed CVE database queried against the detected event, with an LLM producing a structured verdict (intent, severity, recommended action)
-False positive filtering, scan type classification, and attacker profiling happen at this layer. Expensive LLM calls are gated behind local filtering so the majority of decisions are handled for free.
+- CVE RAG pipeline: embeddings of a port-confirmed CVE database queried against the detected event, with an LLM producing a structured verdict (intent, severity, recommended action) False positive filtering, scan type classification, and attacker profiling happen at this layer. Expensive LLM calls are gated behind local filtering so the majority of decisions are handled for free.
 
 **(5) Result - Incident Report** 
 
@@ -62,7 +61,6 @@ Scan detected: 192.168.100.103 -> 192.168.100.102
   Ports probed: 1000
   Type: SYN scan (no response)
   Duration: 21.106s
-192.168.100.103
   Representative port: 21
   CVEs in VECTOR_DB for this port: 8
   Raw LLM:   INTENT: Attempt to access the FTP server on port 21.
@@ -86,7 +84,7 @@ SEVERITY: High
 - AbuseIPDB + Shodan InternetDB - IP reputation feeds
 
 ## Future Enhancements 
-- [ ] Add another layer for the LLM to take care of ~1% of the cases that will not be flagged by the 4 pillars. 
+- [ ] Add another layer (reasoning model) for the LLM to take care of ~1% of the cases that will not be flagged by the 4 pillars. 
 - [ ] Live Monitoring - step away from the test conn.log and eve.json
 - [ ] requirements.txt 
 
