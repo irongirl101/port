@@ -123,11 +123,7 @@ ollama pull hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF
 
 ### API Keys
 
-| Service | Required | Purpose | Free Tier |
-|---------|----------|---------|-----------|
-| AbuseIPDB | Yes | IP reputation scoring | 1,000 checks/day |
-
-Sign up at [abuseipdb.com](https://www.abuseipdb.com) and set your key:
+Sign up at [abuseipdb.com](https://www.abuseipdb.com) and set your key. 
 
 ```bash
 export ABUSEIPDB_API_KEY="your_key_here"
