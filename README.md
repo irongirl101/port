@@ -48,7 +48,7 @@ False positive filtering, scan type classification, and attacker profiling happe
 
 **(5) Result - Incident Report** 
 
-Structured output per detected scan: source IP, ports probed, scan type, IP reputation, matched CVEs, attacker intent, severity, and recommended action.
+Structured output per detected scan: source IP, ports probed, scan type, IP reputation, matched CVEs, attacker intent, severity. 
 
 The full stack is designed to be cost-efficient, with expensive model calls gated behind local filtering that handles the majority of decisions for free.
 
