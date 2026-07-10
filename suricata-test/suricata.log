@@ -1,0 +1,115 @@
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: cpu: CPUs/cores online: 12
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: suricata: Setting engine mode to IDS mode by default
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: exception-policy: master exception-policy set to: auto
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: suricata: Preparing unexpected signal handling
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Warning: detect: No rule files match the pattern /var/lib/suricata/rules/suricata.rules
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Warning: detect: 1 rule files specified, but no rules were loaded!
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: detect: 0 signatures processed. 0 are IP-only rules, 0 are inspecting packet payload, 0 inspect application layer, 0 are decoder event only
+[9432 - RX#01] 2026-06-30 15:07:12 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9432 - RX#01] 2026-06-30 15:07:12 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9432 - RX#01] 2026-06-30 15:07:12 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Notice: suricata: Signal Received.  Stopping engine.
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: suricata: time elapsed 0.087s
+[9432 - RX#01] 2026-06-30 15:07:12 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9431 - Suricata-Main] 2026-06-30 15:07:12 Info: counters: Alerts: 0
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: cpu: CPUs/cores online: 12
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: suricata: Setting engine mode to IDS mode by default
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: exception-policy: master exception-policy set to: auto
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: suricata: Preparing unexpected signal handling
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9494 - Suricata-Main] 2026-06-30 15:08:26 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9494 - Suricata-Main] 2026-06-30 15:08:27 Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+[9494 - Suricata-Main] 2026-06-30 15:08:27 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9494 - Suricata-Main] 2026-06-30 15:08:27 Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+[9495 - RX#01] 2026-06-30 15:08:30 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9494 - Suricata-Main] 2026-06-30 15:08:30 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9495 - RX#01] 2026-06-30 15:08:30 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9495 - RX#01] 2026-06-30 15:08:30 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9494 - Suricata-Main] 2026-06-30 15:08:30 Notice: suricata: Signal Received.  Stopping engine.
+[9494 - Suricata-Main] 2026-06-30 15:08:30 Info: suricata: time elapsed 0.114s
+[9495 - RX#01] 2026-06-30 15:08:30 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9494 - Suricata-Main] 2026-06-30 15:08:30 Info: counters: Alerts: 0
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: cpu: CPUs/cores online: 12
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: suricata: Setting engine mode to IDS mode by default
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: exception-policy: master exception-policy set to: auto
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: suricata: Preparing unexpected signal handling
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9551 - Suricata-Main] 2026-06-30 15:09:11 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9551 - Suricata-Main] 2026-06-30 15:09:12 Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+[9551 - Suricata-Main] 2026-06-30 15:09:12 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9551 - Suricata-Main] 2026-06-30 15:09:12 Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+[9552 - RX#01] 2026-06-30 15:09:15 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9551 - Suricata-Main] 2026-06-30 15:09:15 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9552 - RX#01] 2026-06-30 15:09:15 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9552 - RX#01] 2026-06-30 15:09:15 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9551 - Suricata-Main] 2026-06-30 15:09:15 Notice: suricata: Signal Received.  Stopping engine.
+[9551 - Suricata-Main] 2026-06-30 15:09:15 Info: suricata: time elapsed 0.113s
+[9552 - RX#01] 2026-06-30 15:09:15 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9551 - Suricata-Main] 2026-06-30 15:09:15 Info: counters: Alerts: 0
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: cpu: CPUs/cores online: 12
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: suricata: Setting engine mode to IDS mode by default
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: exception-policy: master exception-policy set to: auto
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: suricata: Preparing unexpected signal handling
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9598 - Suricata-Main] 2026-06-30 15:10:21 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9598 - Suricata-Main] 2026-06-30 15:10:22 Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+[9598 - Suricata-Main] 2026-06-30 15:10:22 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9598 - Suricata-Main] 2026-06-30 15:10:22 Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+[9599 - RX#01] 2026-06-30 15:10:25 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9599 - RX#01] 2026-06-30 15:10:25 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9599 - RX#01] 2026-06-30 15:10:25 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9598 - Suricata-Main] 2026-06-30 15:10:25 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9598 - Suricata-Main] 2026-06-30 15:10:25 Notice: suricata: Signal Received.  Stopping engine.
+[9598 - Suricata-Main] 2026-06-30 15:10:25 Info: suricata: time elapsed 0.102s
+[9599 - RX#01] 2026-06-30 15:10:25 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9598 - Suricata-Main] 2026-06-30 15:10:25 Info: counters: Alerts: 0
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: cpu: CPUs/cores online: 12
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: suricata: Setting engine mode to IDS mode by default
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: exception-policy: master exception-policy set to: auto
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: suricata: Preparing unexpected signal handling
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9628 - Suricata-Main] 2026-06-30 15:10:50 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9628 - Suricata-Main] 2026-06-30 15:10:51 Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+[9628 - Suricata-Main] 2026-06-30 15:10:51 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9628 - Suricata-Main] 2026-06-30 15:10:51 Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+[9629 - RX#01] 2026-06-30 15:10:54 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9629 - RX#01] 2026-06-30 15:10:54 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9628 - Suricata-Main] 2026-06-30 15:10:54 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9629 - RX#01] 2026-06-30 15:10:54 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9628 - Suricata-Main] 2026-06-30 15:10:54 Notice: suricata: Signal Received.  Stopping engine.
+[9628 - Suricata-Main] 2026-06-30 15:10:54 Info: suricata: time elapsed 0.122s
+[9629 - RX#01] 2026-06-30 15:10:54 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9628 - Suricata-Main] 2026-06-30 15:10:54 Info: counters: Alerts: 0
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: cpu: CPUs/cores online: 12
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: suricata: Setting engine mode to IDS mode by default
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: exception-policy: master exception-policy set to: auto
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: suricata: Preparing unexpected signal handling
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: logopenfile: fast output device (regular) initialized: fast.log
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: logopenfile: eve-log output device (regular) initialized: eve.json
+[9702 - Suricata-Main] 2026-06-30 15:11:48 Info: logopenfile: stats output device (regular) initialized: stats.log
+[9702 - Suricata-Main] 2026-06-30 15:11:49 Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+[9702 - Suricata-Main] 2026-06-30 15:11:49 Info: threshold-config: Threshold config parsed: 0 rule(s) found
+[9702 - Suricata-Main] 2026-06-30 15:11:49 Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+[9703 - RX#01] 2026-06-30 15:11:52 Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+[9702 - Suricata-Main] 2026-06-30 15:11:52 Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+[9703 - RX#01] 2026-06-30 15:11:52 Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+[9703 - RX#01] 2026-06-30 15:11:52 Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+[9702 - Suricata-Main] 2026-06-30 15:11:52 Notice: suricata: Signal Received.  Stopping engine.
+[9702 - Suricata-Main] 2026-06-30 15:11:52 Info: suricata: time elapsed 0.119s
+[9703 - RX#01] 2026-06-30 15:11:52 Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+[9702 - Suricata-Main] 2026-06-30 15:11:52 Info: counters: Alerts: 0

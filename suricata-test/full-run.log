@@ -1,0 +1,19 @@
+Notice: suricata: This is Suricata version 8.0.5 RELEASE running in USER mode
+Info: cpu: CPUs/cores online: 12
+Info: suricata: Setting engine mode to IDS mode by default
+Info: exception-policy: master exception-policy set to: auto
+Info: suricata: Preparing unexpected signal handling
+Info: logopenfile: fast output device (regular) initialized: fast.log
+Info: logopenfile: eve-log output device (regular) initialized: eve.json
+Info: logopenfile: stats output device (regular) initialized: stats.log
+Info: detect: 1 rule files processed. 50898 rules successfully loaded, 0 rules failed, 0 rules skipped
+Info: threshold-config: Threshold config parsed: 0 rule(s) found
+Info: detect: 50903 signatures processed. 1269 are IP-only rules, 4505 are inspecting packet payload, 44893 inspect application layer, 110 are decoder event only
+Info: pcap: Starting file run for /home/aditivignesh/nmap-captures/nmap_standard_scan
+Notice: threads: Threads created -> RX: 1 W: 12 FM: 1 FR: 1   Engine started.
+Info: checksum: No packets with invalid checksum, assuming checksum offloading is NOT used
+Info: pcap: pcap file /home/aditivignesh/nmap-captures/nmap_standard_scan end of file reached (pcap err code 0)
+Notice: suricata: Signal Received.  Stopping engine.
+Info: suricata: time elapsed 0.119s
+Notice: pcap: read 1 file, 2004 packets, 120204 bytes
+Info: counters: Alerts: 0
