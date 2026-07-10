@@ -147,8 +147,7 @@ def process_log(filepath, eve_json = None):
         ]
         if flagged_ports:
             print(f"  Suricata also flagged ports: {flagged_ports}")
-            # prefer a Suricata-flagged port as representative
-            # since it has a known-bad signature match
+            # prefer a suricata-flagged port as representative - since it has a known-bad signature match
             rep_port = flagged_ports[0]
         else:
             # fall back to first KNOWN_PORT in the scan
